@@ -1,0 +1,68 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+// Function to display a question and its options
+void displayQuestion(int questionNum, char *question, char *option1, char *option2, char *option3, char correctAnswer);
+
+// Function to check the user's answer and update score
+int checkAnswer(char userAnswer, char correctAnswer, int *score);
+
+int main() {
+    int score = 0;
+    char answer;
+
+    // Define the quiz questions and answers
+    char questions[5][100] = {
+        "What is the capital of France?",
+        "Which planet is known as the Red Planet?",
+        "Who wrote 'Hamlet'?",
+        "What is the chemical symbol for water?",
+        "Who painted the Mona Lisa?"
+    };
+
+    char options[5][3][50] = {
+        {"A) Paris", "B) London", "C) Rome"},
+        {"A) Venus", "B) Mars", "C) Jupiter"},
+        {"A) William Shakespeare", "B) Charles Dickens", "C) Jane Austen"},
+        {"A) H2O", "B) CO2", "C) O2"},
+        {"A) Leonardo da Vinci", "B) Vincent van Gogh", "C) Pablo Picasso"}
+    };
+
+    char correctAnswers[5] = {'A', 'B', 'A', 'A', 'A'};
+
+    // Display each question and get user's answers
+    for (int i = 0; i < 5; i++) {
+        displayQuestion(i + 1, questions[i], options[i][0], options[i][1], options[i][2], correctAnswers[i]);
+        printf("Enter your answer (A, B, or C): ");
+        scanf(" %c", &answer);  // Note the space before %c to consume any whitespace characters
+
+        // Validate user's answer and update score
+        if (checkAnswer(answer, correctAnswers[i], &score)) {
+            printf("Correct!\n");
+        } else {
+            printf("Incorrect. The correct answer is %c\n", correctAnswers[i]);
+        }
+
+        printf("Your current score is: %d\n\n", score);
+    }
+
+    // Display final score
+    printf("Quiz complete!\n");
+    printf("Your final score is: %d out of 5\n", score);
+
+    return 0;
+}
+
+void displayQuestion(int questionNum, char *question, char *option1, char *option2, char *option3, char correctAnswer) {
+    printf("Question %d: %s\n", questionNum, question);
+    printf("%s\n%s\n%s\n", option1, option2, option3);
+}
+
+int checkAnswer(char userAnswer, char correctAnswer, int *score) {
+    if (userAnswer == correctAnswer) {
+        (*score)++;
+        return 1;  // Return true for correct answer
+    }
+    return 0;  // Return false for incorrect answer
+}
